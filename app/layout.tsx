@@ -7,7 +7,6 @@ import { baseMetadata } from "@/lib/metadata";
 import type { Metadata, Viewport } from "next";
 import { Fraunces, Geist, Geist_Mono } from "next/font/google";
 import type { ReactNode } from "react";
-import "@xyflow/react/dist/style.css";
 import "./globals.css";
 
 const geistSans = Geist({

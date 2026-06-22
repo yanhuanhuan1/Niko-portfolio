@@ -1,5 +1,3 @@
-import { Position, type Edge, type Node } from "@xyflow/react";
-
 import {
   siteContent,
   type LocalizedImage,
@@ -78,8 +76,84 @@ export type ProjectCanvas = {
   title: LocalizedText;
   subtitle: LocalizedText;
   meta: ProjectCanvasMeta;
-  nodes: Node<CanvasNodeData>[];
-  edges: Edge[];
+  nodes: ProjectCanvasNode[];
+  edges: ProjectCanvasEdge[];
+};
+
+export type ProjectCanvasNode = {
+  id: string;
+  type: "canvas";
+  position: {
+    x: number;
+    y: number;
+  };
+  width: number;
+  height: number;
+  draggable: boolean;
+  data: CanvasNodeData;
+  style: {
+    width: number;
+    height: number;
+  };
+};
+
+export type ProjectCanvasConnectorAnchor = {
+  x: number;
+  y: number;
+};
+
+export type ProjectCanvasConnectorTerminal = {
+  normalizedAnchor: ProjectCanvasConnectorAnchor;
+  isExact: boolean;
+  isPrecise: boolean;
+  snap: "center" | "edge-point" | "edge" | "none";
+};
+
+export type ProjectCanvasConnectorArrowhead =
+  | "arrow"
+  | "triangle"
+  | "square"
+  | "dot"
+  | "pipe"
+  | "diamond"
+  | "inverted"
+  | "bar"
+  | "none";
+
+export type ProjectCanvasConnectorStyle = {
+  kind: "arc" | "elbow";
+  color:
+    | "black"
+    | "blue"
+    | "green"
+    | "grey"
+    | "light-blue"
+    | "light-green"
+    | "light-red"
+    | "light-violet"
+    | "orange"
+    | "red"
+    | "violet"
+    | "white"
+    | "yellow";
+  dash: "solid" | "dashed" | "dotted" | "draw";
+  size: "s" | "m" | "l" | "xl";
+  arrowheadStart: ProjectCanvasConnectorArrowhead;
+  arrowheadEnd: ProjectCanvasConnectorArrowhead;
+  bend?: number;
+  elbowMidPoint?: number;
+};
+
+export type ProjectCanvasEdge = {
+  id: string;
+  source: string;
+  target: string;
+  type: "tldraw-arrow";
+  connector: ProjectCanvasConnectorStyle & {
+    start: ProjectCanvasConnectorTerminal;
+    end: ProjectCanvasConnectorTerminal;
+  };
+  style: typeof EDGE_STYLE;
 };
 
 type SummaryItem = (typeof siteContent.homeProjects.items)[number];
@@ -183,12 +257,30 @@ const EDGE_STYLE = {
   strokeLinejoin: "round" as const,
 };
 
+const DEFAULT_CONNECTOR_TERMINAL = {
+  isExact: false,
+  isPrecise: true,
+  snap: "edge",
+} as const satisfies Omit<ProjectCanvasConnectorTerminal, "normalizedAnchor">;
+
+const DEFAULT_CONNECTOR_STYLE = {
+  kind: "arc",
+  color: "blue",
+  dash: "solid",
+  size: "xl",
+  arrowheadStart: "none",
+  arrowheadEnd: "none",
+  elbowMidPoint: 0.5,
+} as const satisfies ProjectCanvasConnectorStyle;
+
 const GALLERY_THUMBNAIL_WIDTH = 236;
 const GALLERY_THUMBNAIL_GAP = 24;
 const GALLERY_THUMBNAIL_COLUMNS = 3;
-const GALLERY_CLUSTER_OFFSET = { x: 420, y: -36 };
+const GALLERY_CLUSTER_OFFSET = { x: 520, y: -36 };
 const GALLERY_MIN_HEIGHT = 132;
 const GALLERY_MAX_HEIGHT = 228;
+const MIND_MAP_CHILD_COLUMN_X = 1040;
+const MIND_MAP_NESTED_COLUMN_GAP = 520;
 
 export function projectCanvasAssetPath(
   slug: string,
@@ -260,13 +352,13 @@ function createDraftGalleryImages(
 
 const THEME_NODE_SIZE_LIMITS = {
   root: {
-    minWidth: 420,
-    maxWidth: 760,
+    minWidth: 520,
+    maxWidth: 620,
     minHeight: 180,
-    maxHeight: 320,
-    horizontalPadding: 72,
-    verticalPadding: 52,
-    titleFontSize: 76,
+    maxHeight: 300,
+    horizontalPadding: 56,
+    verticalPadding: 46,
+    titleFontSize: 56,
     descriptionFontSize: 18,
     lineGap: 18,
   },
@@ -453,7 +545,7 @@ function createNode(
   width: number,
   height: number,
   data: CanvasNodeData
-): Node<CanvasNodeData> {
+): ProjectCanvasNode {
   const size =
     data.kind === "image" ? { width, height } : resolveThemeNodeSize(data);
 
@@ -463,8 +555,6 @@ function createNode(
     position,
     width: size.width,
     height: size.height,
-    sourcePosition: Position.Right,
-    targetPosition: Position.Left,
     draggable: true,
     data,
     style: {
@@ -474,12 +564,23 @@ function createNode(
   };
 }
 
-function createEdge(slug: string, source: string, target: string): Edge {
+function createEdge(slug: string, source: string, target: string): ProjectCanvasEdge {
   return {
     id: `${slug}-${source}-to-${target}`,
     source,
     target,
-    type: "bezier",
+    type: "tldraw-arrow",
+    connector: {
+      ...DEFAULT_CONNECTOR_STYLE,
+      start: {
+        ...DEFAULT_CONNECTOR_TERMINAL,
+        normalizedAnchor: { x: 1, y: 0.5 },
+      },
+      end: {
+        ...DEFAULT_CONNECTOR_TERMINAL,
+        normalizedAnchor: { x: 0, y: 0.5 },
+      },
+    },
     style: EDGE_STYLE,
   };
 }
@@ -519,7 +620,7 @@ function createCategoryGalleryNodes({
   level: number;
   anchorPosition: { x: number; y: number };
   images: ReadonlyArray<CanvasGalleryImage>;
-}): Node<CanvasNodeData>[] {
+}): ProjectCanvasNode[] {
   const placements = layoutGalleryCluster(anchorPosition, images);
 
   return images.map((image, index) => {
@@ -718,11 +819,11 @@ function createProjectCanvasFlat(
   const resultId = `${slug}-result`;
   const draftCategories = canvasDraftFile.projects?.[slug]?.categories ?? {};
   const categoryAnchors: Record<string, { x: number; y: number }> = {
-    background: { x: 760, y: 120 },
-    "space-plan": { x: 760, y: 320 },
-    visual: { x: 760, y: 520 },
-    procurement: { x: 760, y: 720 },
-    result: { x: 760, y: 920 },
+    background: { x: MIND_MAP_CHILD_COLUMN_X, y: 120 },
+    "space-plan": { x: MIND_MAP_CHILD_COLUMN_X, y: 320 },
+    visual: { x: MIND_MAP_CHILD_COLUMN_X, y: 520 },
+    procurement: { x: MIND_MAP_CHILD_COLUMN_X, y: 720 },
+    result: { x: MIND_MAP_CHILD_COLUMN_X, y: 920 },
   };
   const defaultCategoryNodes = [
     { key: "background", id: backgroundId },
@@ -744,7 +845,10 @@ function createProjectCanvasFlat(
   );
 
   draftOnlyCategories.forEach(([categoryKey], index) => {
-    categoryAnchors[categoryKey] = { x: 760, y: 1120 + index * 200 };
+    categoryAnchors[categoryKey] = {
+      x: MIND_MAP_CHILD_COLUMN_X,
+      y: 1120 + index * 200,
+    };
   });
 
   const draftCategoryNodes = draftOnlyCategories.map(([categoryKey]) => ({
@@ -902,12 +1006,12 @@ function createProjectCanvasTemplate(
   const slug = summary.id;
   const rootId = `${slug}-root`;
   const draftCategories = canvasDraftFile.projects?.[slug]?.categories ?? {};
-  const nodes: Node<CanvasNodeData>[] = [];
-  const edges: Edge[] = [];
-  const nodesById = new Map<string, Node<CanvasNodeData>>();
+  const nodes: ProjectCanvasNode[] = [];
+  const edges: ProjectCanvasEdge[] = [];
+  const nodesById = new Map<string, ProjectCanvasNode>();
   const childCountsByParent = new Map<string, number>();
 
-  const addNode = (node: Node<CanvasNodeData>): void => {
+  const addNode = (node: ProjectCanvasNode): void => {
     nodes.push(node);
     nodesById.set(node.id, node);
   };
@@ -938,7 +1042,7 @@ function createProjectCanvasTemplate(
       key: "background",
       id: `${slug}-background`,
       kind: "overview",
-      position: { x: 760, y: 120 },
+      position: { x: MIND_MAP_CHILD_COLUMN_X, y: 120 },
       data: {
         kind: "overview",
         level: 2,
@@ -955,7 +1059,7 @@ function createProjectCanvasTemplate(
       key: "space-plan",
       id: `${slug}-space-plan`,
       kind: "plan",
-      position: { x: 760, y: 320 },
+      position: { x: MIND_MAP_CHILD_COLUMN_X, y: 320 },
       data: {
         kind: "plan",
         level: 2,
@@ -973,7 +1077,7 @@ function createProjectCanvasTemplate(
       key: "visual",
       id: `${slug}-visual`,
       kind: "render",
-      position: { x: 760, y: 520 },
+      position: { x: MIND_MAP_CHILD_COLUMN_X, y: 520 },
       data: {
         kind: "render",
         level: 2,
@@ -992,7 +1096,7 @@ function createProjectCanvasTemplate(
       key: "procurement",
       id: `${slug}-procurement`,
       kind: "note",
-      position: { x: 760, y: 720 },
+      position: { x: MIND_MAP_CHILD_COLUMN_X, y: 720 },
       data: {
         kind: "note",
         level: 2,
@@ -1010,7 +1114,7 @@ function createProjectCanvasTemplate(
       key: "result",
       id: `${slug}-result`,
       kind: "final",
-      position: { x: 760, y: 920 },
+      position: { x: MIND_MAP_CHILD_COLUMN_X, y: 920 },
       data: {
         kind: "final",
         level: 2,
@@ -1097,9 +1201,12 @@ function createProjectCanvasTemplate(
     const position =
       category.position ??
       (parentId === rootId
-        ? { x: 760, y: 1120 + Math.max(0, siblingIndex - 5) * 200 }
+        ? {
+            x: MIND_MAP_CHILD_COLUMN_X,
+            y: 1120 + Math.max(0, siblingIndex - 5) * 200,
+          }
         : {
-            x: parent.position.x + 420,
+            x: parent.position.x + MIND_MAP_NESTED_COLUMN_GAP,
             y: parent.position.y + siblingIndex * 170 - 80,
           });
     const data = applyDraftCategoryData(
