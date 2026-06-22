@@ -1,0 +1,29 @@
+<svg width="1200" height="1200" viewBox="0 0 1200 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="96" y1="88" x2="1112" y2="1116" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#18111B" />
+      <stop offset="0.5" stop-color="#3A2A17" />
+      <stop offset="1" stop-color="#09090B" />
+    </linearGradient>
+    <linearGradient id="accent" x1="156" y1="174" x2="1042" y2="1060" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FDE68A" stop-opacity="0.78" />
+      <stop offset="1" stop-color="#FB923C" stop-opacity="0.12" />
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(372 376) rotate(59.0362) scale(348.525 398.067)">
+      <stop stop-color="#FFFFFF" stop-opacity="0.78" />
+      <stop offset="0.5" stop-color="#FDE68A" stop-opacity="0.2" />
+      <stop offset="1" stop-color="#FDE68A" stop-opacity="0" />
+    </radialGradient>
+    <filter id="blur" x="-48" y="-48" width="1296" height="1296" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="28" />
+    </filter>
+  </defs>
+  <rect width="1200" height="1200" fill="url(#bg)" />
+  <circle cx="378" cy="376" r="226" fill="url(#glow)" opacity="0.95" />
+  <rect x="208" y="738" width="804" height="240" rx="120" fill="#0F172A" fill-opacity="0.7" />
+  <path d="M206 818C304 724 424 676 600 676C776 676 896 724 994 818C940 930 804 1006 600 1006C396 1006 260 930 206 818Z" fill="url(#accent)" opacity="0.55" filter="url(#blur)" />
+  <path d="M346 782C388 654 492 572 600 572C710 572 814 654 858 782C798 884 708 940 600 940C493 940 403 884 346 782Z" fill="#F8FAFC" fill-opacity="0.12" />
+  <path d="M286 238C400 192 494 172 602 168C706 164 804 182 920 232" stroke="#F8FAFC" stroke-opacity="0.1" stroke-width="16" stroke-linecap="round" />
+  <path d="M242 400C338 356 438 336 556 336" stroke="#FDE68A" stroke-opacity="0.34" stroke-width="12" stroke-linecap="round" />
+  <path d="M860 414C934 464 982 538 1004 630" stroke="#F8FAFC" stroke-opacity="0.14" stroke-width="12" stroke-linecap="round" />
+</svg>

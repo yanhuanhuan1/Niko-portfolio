@@ -1,0 +1,196 @@
+{
+  "projects": {
+    "loom": {
+      "categories": {
+        "visual": {
+          "images": [
+            {
+              "fileName": "1782012435439-1-plan.png",
+              "thumbnailFileName": "1782012435439-1-plan.png",
+              "caption": "plan",
+              "width": 5840,
+              "height": 2160,
+              "aspectRatio": 2.7037
+            },
+            {
+              "fileName": "1782012435448-2-image-2.png",
+              "thumbnailFileName": "1782012435448-2-image-2.png",
+              "caption": "海军节",
+              "width": 2390,
+              "height": 1792,
+              "aspectRatio": 1.3337
+            },
+            {
+              "fileName": "1782012435456-3-_1_upscale01.png",
+              "thumbnailFileName": "1782012435456-3-_1_upscale01.png",
+              "caption": "主展示区 1 upscale01",
+              "width": 3840,
+              "height": 2160,
+              "aspectRatio": 1.7778
+            },
+            {
+              "fileName": "1782012825645-1-img20250421120710.jpg",
+              "thumbnailFileName": "1782012825645-1-img20250421120710.jpg",
+              "caption": "IMG20250421120710.",
+              "width": 8192,
+              "height": 6144,
+              "aspectRatio": 1.3333
+            },
+            {
+              "fileName": "1782012825656-2-img20250421122010.jpg",
+              "thumbnailFileName": "1782012825656-2-img20250421122010.jpg",
+              "caption": "IMG20250421122010.",
+              "width": 4096,
+              "height": 3072,
+              "aspectRatio": 1.3333
+            },
+            {
+              "fileName": "1782012825662-3-img20250421175704.jpg",
+              "thumbnailFileName": "1782012825662-3-img20250421175704.jpg",
+              "caption": "IMG20250421175704.",
+              "width": 4096,
+              "height": 1864,
+              "aspectRatio": 2.1974
+            },
+            {
+              "fileName": "1782012825665-4-img20250421195410.jpg",
+              "thumbnailFileName": "1782012825665-4-img20250421195410.jpg",
+              "caption": "IMG20250421195410.",
+              "width": 3072,
+              "height": 3072,
+              "aspectRatio": 1
+            },
+            {
+              "fileName": "1782012825669-5-img20250421222020.jpg",
+              "thumbnailFileName": "1782012825669-5-img20250421222020.jpg",
+              "caption": "IMG20250421222020.",
+              "width": 3072,
+              "height": 3072,
+              "aspectRatio": 1
+            }
+          ],
+          "parentId": "loom-visual",
+          "position": {
+            "x": 1345,
+            "y": 796
+          }
+        }
+      }
+    },
+    "groove": {
+      "categories": {
+        "background": {
+          "images": [],
+          "parentId": "groove-root",
+          "position": {
+            "x": 911,
+            "y": 21
+          },
+          "title": {
+            "zh": "项目背景",
+            "en": "Project background"
+          },
+          "textAlign": "center",
+          "textColor": "#ffffff",
+          "fontSize": 42,
+          "description": {
+            "zh": "参与会展方案规划与落地深化，输出模型及效果参考。",
+            "en": "Participated in exhibition proposal planning and implementation refinement, producing models and visual references."
+          }
+        },
+        "space-plan": {
+          "images": [],
+          "parentId": "groove-root",
+          "position": {
+            "x": 915,
+            "y": 304
+          }
+        },
+        "visual": {
+          "images": [],
+          "parentId": "groove-root",
+          "position": {
+            "x": 914,
+            "y": 566
+          }
+        },
+        "procurement": {
+          "images": [],
+          "parentId": "groove-root",
+          "position": {
+            "x": 908,
+            "y": 844
+          }
+        },
+        "result": {
+          "images": [],
+          "parentId": "groove-root",
+          "position": {
+            "x": 908,
+            "y": 1122
+          }
+        },
+        "topic-1782092543943-c87e3": {
+          "images": [],
+          "parentId": "groove-background",
+          "title": {
+            "zh": "1.2 品牌定位",
+            "en": "新主题"
+          },
+          "textAlign": "center",
+          "textColor": "#ffffff",
+          "fontSize": 30,
+          "position": {
+            "x": 1521,
+            "y": 129
+          }
+        },
+        "topic-1782092652598-6952f": {
+          "images": [],
+          "parentId": "groove-background",
+          "title": {
+            "zh": "1.1 展会背景",
+            "en": "新主题"
+          },
+          "textAlign": "center",
+          "textColor": "#ffffff",
+          "fontSize": 30,
+          "position": {
+            "x": 1527,
+            "y": -77
+          }
+        },
+        "topic-1782092668484-018e4": {
+          "images": [],
+          "parentId": "groove-topic-1782092652598-6952f",
+          "title": {
+            "zh": "KBIS 是美国厨卫行业的重要展会，项目需要围绕展会环境、目标观众和品牌竞争场景展开设计。",
+            "en": "新主题"
+          },
+          "textAlign": "center",
+          "textColor": "#ffffff",
+          "fontSize": 26,
+          "position": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        "topic-1782092851823-7d574": {
+          "images": [],
+          "parentId": "groove-topic-1782092543943-c87e3",
+          "title": {
+            "zh": "说明品牌在美国市场想传达的形象，例如：专业、现代、高性价比、半定制能力、工程配套能力。",
+            "en": "新主题"
+          },
+          "textAlign": "center",
+          "textColor": "#ffffff",
+          "fontSize": 26,
+          "position": {
+            "x": 0,
+            "y": 0
+          }
+        }
+      }
+    }
+  }
+}

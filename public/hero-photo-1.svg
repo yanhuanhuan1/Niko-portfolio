@@ -1,0 +1,29 @@
+<svg width="1200" height="1200" viewBox="0 0 1200 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="122" y1="102" x2="1088" y2="1106" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0C1324" />
+      <stop offset="0.48" stop-color="#1B2B44" />
+      <stop offset="1" stop-color="#090B10" />
+    </linearGradient>
+    <linearGradient id="accent" x1="122" y1="186" x2="1038" y2="1050" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7DD3FC" stop-opacity="0.9" />
+      <stop offset="1" stop-color="#38BDF8" stop-opacity="0.16" />
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(828 318) rotate(133.927) scale(342.121 381.353)">
+      <stop stop-color="#F8FAFC" stop-opacity="0.88" />
+      <stop offset="0.48" stop-color="#BFDBFE" stop-opacity="0.22" />
+      <stop offset="1" stop-color="#BFDBFE" stop-opacity="0" />
+    </radialGradient>
+    <filter id="blur" x="-48" y="-48" width="1296" height="1296" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="28" />
+    </filter>
+  </defs>
+  <rect width="1200" height="1200" fill="url(#bg)" />
+  <rect x="118" y="118" width="964" height="964" rx="320" fill="url(#accent)" opacity="0.28" filter="url(#blur)" />
+  <circle cx="834" cy="344" r="208" fill="url(#glow)" opacity="0.95" />
+  <path d="M158 872C240 654 398 520 600 520C801 520 955 648 1044 878C914 988 770 1050 604 1050C438 1050 278 974 158 872Z" fill="#0F172A" fill-opacity="0.68" />
+  <path d="M374 760C416 670 498 612 600 612C705 612 789 671 830 762C764 850 682 900 600 900C519 900 439 850 374 760Z" fill="#F8FAFC" fill-opacity="0.12" />
+  <path d="M320 214C416 160 516 138 614 146C716 154 806 188 890 248" stroke="#F8FAFC" stroke-opacity="0.12" stroke-width="18" stroke-linecap="round" />
+  <path d="M216 386C344 308 456 268 560 266" stroke="#7DD3FC" stroke-opacity="0.34" stroke-width="12" stroke-linecap="round" />
+  <path d="M886 536C970 592 1030 674 1060 774" stroke="#F8FAFC" stroke-opacity="0.12" stroke-width="14" stroke-linecap="round" />
+</svg>

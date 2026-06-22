@@ -1,0 +1,4 @@
+.shinyText {
+  display: inline-block;
+  will-change: background-position;
+}
