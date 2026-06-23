@@ -115,14 +115,14 @@ export const siteContent = {
       // Put your two hero photos here. Replace the image paths with your own files when ready.
       photos: [
         {
-          src: "/photo1.png",
+          src: "/photo1.jpg",
           alt: {
             zh: "首页右侧头像照片一",
             en: "Homepage right panel portrait one",
           },
         },
         {
-          src: "/photo2.png",
+          src: "/photo2.jpg",
           alt: {
             zh: "首页右侧头像照片二",
             en: "Homepage right panel portrait two",
