@@ -278,13 +278,21 @@ export function Nav(): ReactNode {
       {isMobile && menuOpen ? (
         <div
           id="mobile-primary-menu"
-          className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-3 bg-background/95 px-6 text-foreground backdrop-blur-xl"
+          className="fixed inset-0 z-[60] flex flex-col items-center justify-center gap-3 bg-background/95 px-6 text-foreground backdrop-blur-xl"
           onClick={(event) => {
             if (event.target === event.currentTarget) {
               setMenuOpen(false);
             }
           }}
         >
+          <button
+            type="button"
+            onClick={() => setMenuOpen(false)}
+            aria-label={language === "zh" ? "关闭菜单" : "Close menu"}
+            className="focus-ring absolute left-1/2 top-6 inline-flex h-14 w-14 -translate-x-1/2 cursor-pointer items-center justify-center rounded-full bg-foreground text-background transition-transform active:scale-95"
+          >
+            <X className="h-5 w-5" aria-hidden="true" />
+          </button>
           {NAV_ITEMS.map((item) => {
             const isActive =
               item.href === "/"
