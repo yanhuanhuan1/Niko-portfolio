@@ -8,6 +8,7 @@ import type { ReactNode } from "react";
 
 import { ContactCardCtas } from "./contact-card-ctas";
 import { siteContent, t } from "@/content/site-content";
+import { useIsMobile } from "@/hooks/useIsMobile";
 import { useLanguage } from "@/lib/language";
 import { FadeIn } from "@/components/ui/motion-primitives";
 import type { ShaderFlowProps } from "../shaders/shader-flow";
@@ -45,6 +46,7 @@ export function ContactCard({
   descriptionOverride,
 }: ContactCardProps = {}): ReactNode {
   const { language } = useLanguage();
+  const isMobile = useIsMobile(768);
   const contact = siteContent.contact;
   const resolvedTitle = t(contact.heading, language);
   const resolvedCopy = descriptionOverride ?? t(contact.description, language);
@@ -69,7 +71,7 @@ export function ContactCard({
                 maskImage: CARD_FADE_MASK,
               }}
             >
-              <ShaderFlow scale={3} brightness={3}/>
+              {!isMobile ? <ShaderFlow scale={3} brightness={3} /> : null}
             </div>
 
             <div className="relative grid gap-8 p-6 sm:gap-10 sm:p-7 md:grid-cols-[1.2fr_1fr] md:items-stretch md:gap-6 md:p-6">
