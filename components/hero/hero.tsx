@@ -51,8 +51,8 @@ export function Hero(): ReactNode {
     : "drop-shadow(0 0 14px rgba(255, 255, 255, 0.12)) drop-shadow(0 0 30px rgba(0, 0, 0, 0.06))";
 
   return (
-    <section className="relative w-full">
-      <div className="mx-auto w-full max-w-275 px-6 pb-24 pt-44 sm:px-10 sm:pb-32 sm:pt-56">
+    <section className="relative flex min-h-[100svh] w-full items-center">
+      <div className="mx-auto w-full max-w-275 px-6 pb-16 pt-32 sm:px-10 sm:pb-20 sm:pt-36">
         <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-2 md:gap-8">
           <FadeIn className="flex flex-col gap-4">
             <p className="text-[20px] font-medium leading-tight tracking-tight text-foreground">
