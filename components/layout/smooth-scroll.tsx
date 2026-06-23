@@ -10,8 +10,11 @@ import { features } from "@/lib/config";
 import { detectMobileDevice } from "@/lib/mobileUtils";
 
 const LENIS_OPTIONS = {
-  duration: 0.42,
-  easing: (t: number) => t * t * (3 - 2 * t),
+  // Previous time-based easing kept here for reference.
+  // duration: 0.42,
+  // easing: (t: number) => t * t * (3 - 2 * t),
+  // Add a light inertial tail so the wheel keeps gliding a bit after input ends.
+  lerp: 0.085,
   orientation: "vertical" as const,
   gestureOrientation: "vertical" as const,
   smoothWheel: true,
