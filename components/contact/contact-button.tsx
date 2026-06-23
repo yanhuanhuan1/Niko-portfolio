@@ -49,6 +49,7 @@ export function ContactButton(): ReactNode {
       onHoverEnd={() => setOpen(false)}
       onFocus={() => setOpen(true)}
       onBlur={() => setOpen(false)}
+      whileTap={{ scale: 0.97 }}
       aria-label={
         copied
           ? t(contact.button.copied, language)
@@ -56,7 +57,7 @@ export function ContactButton(): ReactNode {
             ? t(contact.button.prompt, language)
             : t(contact.button, language)
       }
-      transition={{ layout: { duration: 0.55, ease: EASE } }}
+      transition={{ layout: { duration: 0.3, ease: EASE } }}
       style={{ borderRadius: 12 }}
       className="focus-ring relative inline-flex h-11 cursor-pointer items-center justify-center bg-foreground px-5 text-sm font-medium text-background"
     >
