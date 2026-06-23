@@ -12,11 +12,12 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import type { ComponentType, ReactNode } from "react";
+import { useEffect, type ComponentType, type ReactNode } from "react";
 
 import { FadeIn } from "@/components/ui/motion-primitives";
 import { siteContent, t, type IconKey } from "@/content/site-content";
 import { useLanguage } from "@/lib/language";
+import type { ProjectItem } from "./project-order";
 
 /**
  * Project imagery below is mockup-only. All visuals are sourced from
@@ -35,18 +36,21 @@ const PROJECT_ICONS: Record<IconKey, ComponentType<{ className?: string }>> = {
 };
 
 const PROJECTS = siteContent.homeProjects.items;
+const MISSING_LINKS_WARNED = new Set<string>();
 
 export type ProjectsProps = {
   withHeadline?: boolean;
   viewMoreVisible?: boolean;
+  items?: readonly ProjectItem[];
 };
 
 export function Projects({
   withHeadline = false,
   viewMoreVisible = false,
+  items = PROJECTS,
 }: ProjectsProps): ReactNode {
   const { language } = useLanguage();
-  const items = viewMoreVisible ? PROJECTS.slice(0, 4) : PROJECTS;
+  const visibleItems = viewMoreVisible ? items.slice(0, 4) : items;
   const copy = siteContent.homeProjects;
 
   return (
@@ -64,7 +68,7 @@ export function Projects({
         ) : null}
 
         <div className="columns-1 gap-6 md:columns-2 md:gap-7">
-          {items.map((project, index) => (
+          {visibleItems.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}
         </div>
@@ -92,63 +96,99 @@ function ProjectCard({
   project,
   index,
 }: {
-  project: (typeof siteContent.homeProjects.items)[number];
+  project: ProjectItem;
   index: number;
 }): ReactNode {
   const { language } = useLanguage();
+  const copy = siteContent.homeProjects;
   const Icon = PROJECT_ICONS[project.icon];
-  const href = `/projects/${project.id}`;
+  const externalUrl = project.externalUrl.trim();
+  const hasExternalUrl = externalUrl.length > 0;
+
+  useEffect(() => {
+    if (hasExternalUrl || MISSING_LINKS_WARNED.has(project.id)) {
+      return;
+    }
+
+    MISSING_LINKS_WARNED.add(project.id);
+    console.warn(
+      `[projects] Missing externalUrl for project "${project.id}" (${t(project.title, "zh")}).`
+    );
+  }, [hasExternalUrl, project.id, project.title]);
+
+  const content = (
+    <article className="project-card flex flex-col gap-4 rounded-3xl border border-foreground/8 bg-background p-3 sm:p-3.5">
+      <header className="flex items-center gap-2.5 px-1 pt-2">
+        <span className="border-foreground/10 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border bg-background">
+          <Icon className="h-3.5 w-3.5 text-foreground" aria-hidden="true" />
+        </span>
+        <span className="text-sm font-medium tracking-tight text-foreground">
+          {t(project.iconLabel, language)}
+        </span>
+      </header>
+
+      <div
+        className="project-card__image ring-foreground/5 relative w-full overflow-hidden rounded-2xl bg-foreground/5 ring-1"
+        style={{ aspectRatio: project.imageRatio }}
+      >
+        <div className="project-card__image-inner">
+          <Image
+            src={project.image.src}
+            alt={t(project.image.alt, language)}
+            fill
+            sizes="(min-width: 1024px) 540px, (min-width: 768px) 45vw, 100vw"
+            className="object-cover"
+            priority={index < 2}
+          />
+        </div>
+      </div>
+
+      <div className="flex flex-col gap-2.5 px-1 pb-1">
+        <h3 className="text-[20px] font-medium leading-[1.2] tracking-tight text-foreground sm:text-[22px]">
+          {t(project.title, language)}
+        </h3>
+        <p className="text-[14px] leading-normal tracking-tight text-foreground/65 sm:text-[15px]">
+          {t(project.description, language)}
+        </p>
+      </div>
+
+      <div className="flex flex-col gap-1 px-1 pb-2">
+        <p className="text-[12px] tracking-tight text-foreground/50">
+          {t(project.meta, language)}
+        </p>
+        {!hasExternalUrl ? (
+          <p className="text-[12px] font-medium tracking-tight text-foreground/45">
+            {t(copy.missingLinkLabel, language)}
+          </p>
+        ) : null}
+      </div>
+    </article>
+  );
 
   return (
     <FadeIn
       delay={Math.min(index * 0.06, 0.3)}
       className="mb-6 break-inside-avoid md:mb-7"
     >
-      <Link
-        href={href}
-        aria-label={`${t(project.title, language)} ${t(project.meta, language)}`}
-        className="group block focus-ring"
-      >
-        <article className="project-card flex flex-col gap-4 rounded-3xl border border-foreground/8 bg-background p-3 sm:p-3.5">
-          <header className="flex items-center gap-2.5 px-1 pt-2">
-            <span className="border-foreground/10 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border bg-background">
-              <Icon className="h-3.5 w-3.5 text-foreground" aria-hidden="true" />
-            </span>
-            <span className="text-sm font-medium tracking-tight text-foreground">
-              {t(project.iconLabel, language)}
-            </span>
-          </header>
-
-          <div
-            className="project-card__image ring-foreground/5 relative w-full overflow-hidden rounded-2xl bg-foreground/5 ring-1"
-            style={{ aspectRatio: project.imageRatio }}
-          >
-            <div className="project-card__image-inner">
-              <Image
-                src={project.image.src}
-                alt={t(project.image.alt, language)}
-                fill
-                sizes="(min-width: 1024px) 540px, (min-width: 768px) 45vw, 100vw"
-                className="object-cover"
-                priority={index < 2}
-              />
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-2.5 px-1 pb-1">
-            <h3 className="text-[20px] font-medium leading-[1.2] tracking-tight text-foreground sm:text-[22px]">
-              {t(project.title, language)}
-            </h3>
-            <p className="text-[14px] leading-normal tracking-tight text-foreground/65 sm:text-[15px]">
-              {t(project.description, language)}
-            </p>
-          </div>
-
-          <p className="px-1 pb-2 text-[12px] tracking-tight text-foreground/50">
-            {t(project.meta, language)}
-          </p>
-        </article>
-      </Link>
+      {hasExternalUrl ? (
+        <a
+          href={externalUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`${t(project.title, language)} ${t(project.meta, language)}`}
+          className="group block focus-ring"
+        >
+          {content}
+        </a>
+      ) : (
+        <div
+          aria-disabled="true"
+          title={t(copy.missingLinkLabel, language)}
+          className="group block cursor-not-allowed"
+        >
+          {content}
+        </div>
+      )}
     </FadeIn>
   );
 }

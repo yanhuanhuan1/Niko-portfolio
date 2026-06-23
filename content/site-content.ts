@@ -89,8 +89,8 @@ export const siteContent = {
     projects: {
       title: { zh: "项目", en: "Projects" },
       description: {
-        zh: "项目总览入口，点击卡片后会进入对应的项目详情无限画布页。",
-        en: "A project index that opens each card into its own infinite-canvas detail page.",
+        zh: "项目总览入口，点击卡片后会打开对应的外部作品链接。",
+        en: "A project index that opens each card's external project link.",
       },
     },
   },
@@ -144,6 +144,10 @@ export const siteContent = {
       zh: "查看全部项目",
       en: "View all projects",
     },
+    missingLinkLabel: {
+      zh: "ProcessOn 链接待添加",
+      en: "ProcessOn link pending",
+    },
     items: [
       {
         id: "loom",
@@ -155,6 +159,8 @@ export const siteContent = {
           "Participated in the planning project, responsible for proposal design, spatial visuals, and prop design, and supported communication with relevant departments."
         ),
         meta: localize("策展方案设计,2025", "Curatorial proposal design, 2025"),
+        externalUrl:
+          "https://www.processon.io/embed/6a39f9e751bbd3339a8c9437?lang=en-US",
         imageRatio: 752 / 497,
         image: {
           src: "/海军节1.png",
@@ -177,6 +183,8 @@ export const siteContent = {
           "展厅设计, 2026 in Pacific Palisades Village",
           "Exhibition design, 2026 in Pacific Palisades Village"
         ),
+        externalUrl:
+          "https://www.processon.io/embed/6a39e99651bbd3339a8c8d7a?cid=6a39e99651bbd3339a8c8d7b&lang=en-US",
         imageRatio: 1024 / 768,
         image: {
           src: "/back.png",
@@ -199,6 +207,8 @@ export const siteContent = {
           "展厅方案设计, 2025",
           "Exhibition proposal design, 2025"
         ),
+        externalUrl:
+          "https://www.processon.io/embed/6a39f9a3b19b00303db7f54f?lang=en-US",
         imageRatio: 1024 / 768,
         image: {
           src: "/LX1.png",
@@ -224,6 +234,8 @@ export const siteContent = {
           "展台设计, 2025 in Orlando FL",
           "Booth design, 2025 in Orlando FL"
         ),
+        externalUrl:
+          "https://www.processon.io/embed/6a39f9c251bbd3339a8c941d?lang=en-US",
         imageRatio: 1024 / 768,
         image: {
           src: "/kbis photo.jpg",
@@ -246,6 +258,8 @@ export const siteContent = {
           "Independently completed the 150㎡ garden insect exhibition hall design, coordinating with the client and contractors to deliver the desired result within budget."
         ),
         meta: localize("方案设计, 2025", "Proposal design, 2025"),
+        externalUrl:
+          "https://www.processon.io/embed/6a39f9dc51bbd3339a8c942e?lang=en-US",
         imageRatio: 1024 / 768,
         image: {
           src: "/KC1.png",
@@ -268,6 +282,8 @@ export const siteContent = {
           "For the special exhibition 'The Voice of China, the Light of the World - Soong Ching Ling and International Communication', collaborated with the department to complete the overall proposal and visual design."
         ),
         meta: localize("展厅设计，2025", "Exhibition design, 2025"),
+        externalUrl:
+          "https://www.processon.io/embed/6a39f9f251bbd3339a8c943d?lang=en-US",
         imageRatio: 1024 / 768,
         image: {
           src: "/song11.png",
@@ -469,8 +485,8 @@ export const siteContent = {
       en: "Recent realized projects",
     },
     description: {
-      zh: "点击任意项目，可跳转到该项目的无限画布。",
-      en: "Click any project to jump to its infinite canvas.",
+      zh: "点击任意项目，可在新标签页打开对应的 ProcessOn 画布链接。",
+      en: "Click any project to open the corresponding ProcessOn canvas link in a new tab.",
     },
   },
   systemCaseStudy: {
