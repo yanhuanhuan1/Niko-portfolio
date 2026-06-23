@@ -1,6 +1,6 @@
 "use client";
 
-import { Moon, Sun } from "lucide-react";
+import { Menu, Moon, Sun, X } from "lucide-react";
 import { motion } from "motion/react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
@@ -15,6 +15,7 @@ import {
 } from "react";
 
 import { siteContent, t } from "@/content/site-content";
+import { useIsMobile } from "@/hooks/useIsMobile";
 import { useLanguage } from "@/lib/language";
 
 const NAV_ITEMS = siteContent.nav;
@@ -115,6 +116,7 @@ function NavThemeToggle(): ReactNode {
 export function Nav(): ReactNode {
   const pathname = usePathname();
   const { language } = useLanguage();
+  const isMobile = useIsMobile(640);
   const listRef = useRef<HTMLUListElement>(null);
   const itemRefs = useRef<Array<HTMLLIElement | null>>([]);
   const [pillRect, setPillRect] = useState<{
@@ -122,9 +124,15 @@ export function Nav(): ReactNode {
     width: number;
   } | null>(null);
   const [hasMeasured, setHasMeasured] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const scrollToTop = (): void => {
     window.scrollTo({ top: 0, left: 0 });
+  };
+
+  const handleNavClick = (): void => {
+    setMenuOpen(false);
+    scrollToTop();
   };
 
   const activeIndex = NAV_ITEMS.findIndex((item) =>
@@ -132,9 +140,14 @@ export function Nav(): ReactNode {
       ? pathname === "/"
       : pathname === item.href || pathname.startsWith(`${item.href}/`)
   );
-  const showPill = activeIndex >= 0 && pillRect !== null;
+  const showPill = !isMobile && activeIndex >= 0 && pillRect !== null;
 
   useLayoutEffect(() => {
+    if (isMobile) {
+      setPillRect(null);
+      return;
+    }
+
     const list = listRef.current;
     const activeEl =
       activeIndex >= 0 ? itemRefs.current[activeIndex] : null;
@@ -145,11 +158,32 @@ export function Nav(): ReactNode {
       x: itemRect.left - listRect.left,
       width: itemRect.width,
     });
-  }, [activeIndex, pathname]);
+  }, [activeIndex, isMobile, pathname]);
 
   useLayoutEffect(() => {
     scrollToTop();
   }, [pathname]);
+
+  useEffect(() => {
+    if (!isMobile) {
+      setMenuOpen(false);
+    }
+  }, [isMobile]);
+
+  useEffect(() => {
+    setMenuOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!isMobile || !menuOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isMobile, menuOpen]);
 
   useEffect(() => {
     if (!pillRect) return;
@@ -158,12 +192,41 @@ export function Nav(): ReactNode {
   }, [pillRect]);
 
   return (
-    <nav
-      aria-label="Primary"
-      className="fixed left-1/2 top-6 z-50 -translate-x-1/2"
-    >
-      <div className="flex items-center gap-1 rounded-full bg-background p-1.5 shadow-sm border border-foreground/8">
-        <ul ref={listRef} className="relative flex items-center gap-1">
+    <>
+      <nav
+        aria-label="Primary"
+        className="fixed left-1/2 top-6 z-50 -translate-x-1/2"
+      >
+        <div className="flex items-center gap-1 rounded-full border border-foreground/8 bg-background p-1.5 shadow-sm">
+          {isMobile ? (
+            <button
+              type="button"
+              onClick={() => setMenuOpen((value) => !value)}
+              aria-expanded={menuOpen}
+              aria-controls="mobile-primary-menu"
+              aria-label={
+                menuOpen
+                  ? language === "zh"
+                    ? "关闭菜单"
+                    : "Close menu"
+                  : language === "zh"
+                    ? "打开菜单"
+                    : "Open menu"
+              }
+              className="focus-ring inline-flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-foreground text-background transition-transform active:scale-95"
+            >
+              {menuOpen ? (
+                <X className="h-4 w-4" aria-hidden="true" />
+              ) : (
+                <Menu className="h-4 w-4" aria-hidden="true" />
+              )}
+            </button>
+          ) : null}
+
+          <ul
+            ref={listRef}
+            className={isMobile ? "hidden" : "relative flex items-center gap-1"}
+          >
           {showPill && (
             <motion.span
               aria-hidden="true"
@@ -207,9 +270,41 @@ export function Nav(): ReactNode {
               </li>
             );
           })}
-        </ul>
-        <NavThemeToggle />
-      </div>
-    </nav>
+          </ul>
+          <NavThemeToggle />
+        </div>
+      </nav>
+
+      {isMobile && menuOpen ? (
+        <div
+          id="mobile-primary-menu"
+          className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-3 bg-background/95 px-6 text-foreground backdrop-blur-xl"
+          onClick={(event) => {
+            if (event.target === event.currentTarget) {
+              setMenuOpen(false);
+            }
+          }}
+        >
+          {NAV_ITEMS.map((item) => {
+            const isActive =
+              item.href === "/"
+                ? pathname === "/"
+                : pathname === item.href || pathname.startsWith(`${item.href}/`);
+
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                onClick={handleNavClick}
+                aria-current={isActive ? "page" : undefined}
+                className="focus-ring inline-flex min-h-14 w-full max-w-64 items-center justify-center rounded-2xl px-6 text-xl font-medium transition-colors active:scale-[0.98]"
+              >
+                {t(item.label, language)}
+              </Link>
+            );
+          })}
+        </div>
+      ) : null}
+    </>
   );
 }
