@@ -15,7 +15,7 @@ const LENIS_OPTIONS = {
   orientation: "vertical" as const,
   gestureOrientation: "vertical" as const,
   smoothWheel: true,
-  wheelMultiplier: 1,
+  wheelMultiplier: 0.5,
   touchMultiplier: 2,
   autoRaf: false,
 };
