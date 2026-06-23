@@ -4,6 +4,7 @@ import { Mesh, Program, Renderer, Transform, Triangle } from "ogl";
 import { useEffect, useRef, type ReactNode } from "react";
 
 import { subscribeAnimationFrame } from "@/lib/animation-clock";
+import { createFPSLimiter, detectMobileDevice } from "@/lib/mobileUtils";
 
 export type ShaderFlowProps = {
   className?: string;
@@ -140,6 +141,8 @@ export function ShaderFlow(props: ShaderFlowProps): ReactNode {
     const el = ref.current;
     if (!el) return;
 
+    const isMobileDevice = detectMobileDevice();
+
     const r = new Renderer({
       dpr: Math.min(window.devicePixelRatio || 1, 1),
       alpha: false,
@@ -224,7 +227,9 @@ export function ShaderFlow(props: ShaderFlowProps): ReactNode {
       p.uniforms.uV.value = [...(c.flowSpeed ?? D.flowSpeed)];
       p.uniforms.uS.value = c.scale ?? D.scale;
       p.uniforms.uB.value = c.brightness ?? D.brightness;
-      p.uniforms.uIt.value = c.iterations ?? D.iterations;
+      p.uniforms.uIt.value = isMobileDevice
+        ? Math.min(c.iterations ?? D.iterations, 8)
+        : c.iterations ?? D.iterations;
       p.uniforms.uColorLow.value = [...(c.colorLowA ?? D.colorLowA)];
       p.uniforms.uColorHigh.value = [...(c.colorHighA ?? D.colorHighA)];
       p.uniforms.uFadeShape.value = [
@@ -235,12 +240,22 @@ export function ShaderFlow(props: ShaderFlowProps): ReactNode {
       ];
     };
 
-    const unsubscribe = subscribeAnimationFrame((_frameData, now) => {
+    const renderFrame = (now: number): void => {
       if (!onScreen) return;
 
       p.uniforms.uT.value = (now - t0) / 1000;
       sync();
       r.render({ scene });
+    };
+    const mobileRenderFrame = createFPSLimiter(renderFrame, 30);
+
+    const unsubscribe = subscribeAnimationFrame((_frameData, now) => {
+      if (isMobileDevice) {
+        mobileRenderFrame(now);
+        return;
+      }
+
+      renderFrame(now);
     });
 
     return () => {
