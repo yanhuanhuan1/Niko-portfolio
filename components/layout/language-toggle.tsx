@@ -13,7 +13,7 @@ export function LanguageToggle(): ReactNode {
       type="button"
       onClick={toggleLanguage}
       aria-label={language === "zh" ? "切换到英文" : "Switch to Chinese"}
-      className="focus-ring fixed right-6 top-6 z-50 inline-flex items-center gap-2 rounded-full border border-foreground/8 bg-background px-3 py-2 text-xs font-medium text-foreground shadow-sm backdrop-blur-sm transition-colors sm:right-10"
+      className="focus-ring fixed right-6 top-6 z-50 inline-flex origin-top-right scale-50 items-center gap-2 rounded-full border border-foreground/8 bg-background px-3 py-2 text-xs font-medium text-foreground shadow-sm backdrop-blur-sm transition-[transform,colors] sm:right-10 sm:scale-100"
     >
       <Languages className="h-4 w-4 text-foreground/60" aria-hidden="true" />
       <span
