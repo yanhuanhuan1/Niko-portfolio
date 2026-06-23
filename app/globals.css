@@ -1,5 +1,61 @@
 @import "tailwindcss";
 
+/* ============================================
+   移动端基础适配 - 2024 Mobile Optimization
+   ============================================ */
+
+/* 1. 防止横向溢出 */
+html, body {
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 2. 动态视口高度（解决移动端地址栏跳动） */
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100dvh;
+  min-height: 100vh; /* 兜底 */
+}
+
+/* 3. 所有元素盒模型统一 */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* 4. 移动端点击高亮去除 */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* 5. 触摸目标最小尺寸保障 */
+button, a, [role="button"], input, select, textarea {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* 6. 响应式断点变量 */
+:root {
+  --screen-sm: 640px;
+  --screen-md: 768px;
+  --screen-lg: 1024px;
+  --screen-xl: 1280px;
+}
+
+/* 7. 移动端字体防止自动放大 */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* 8. 图片默认响应式 */
+img, video, svg {
+  max-width: 100%;
+  height: auto;
+}
+
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
