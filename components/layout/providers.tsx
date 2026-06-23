@@ -15,10 +15,12 @@ const SmoothScroll = dynamic(
 
 export function Providers({ children }: { children: ReactNode }): ReactNode {
   return (
+    // Previous first-visit behavior followed the OS preference:
+    // defaultTheme="system" with enableSystem.
     <ThemeProvider
       attribute="class"
-      defaultTheme="system"
-      enableSystem
+      defaultTheme="dark"
+      enableSystem={false}
       disableTransitionOnChange
     >
       <LanguageProvider>
