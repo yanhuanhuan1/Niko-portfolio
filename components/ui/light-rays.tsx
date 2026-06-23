@@ -10,6 +10,11 @@ import {
 import { Mesh, Program, Renderer, Triangle } from "ogl";
 
 import { subscribeAnimationFrame } from "@/lib/animation-clock";
+import {
+  createFPSLimiter,
+  detectMobileDevice,
+  getSafeDPR,
+} from "@/lib/mobileUtils";
 import styles from "./light-rays.module.css";
 
 type RaysOrigin =
@@ -155,9 +160,13 @@ const LightRays = ({
       await new Promise((resolve) => window.setTimeout(resolve, 10));
       if (!containerRef.current) return;
 
+      const isMobileDevice = detectMobileDevice();
+      const effectiveFollowMouse = followMouse && !isMobileDevice;
+
       const renderer = new Renderer({
-        dpr: Math.min(window.devicePixelRatio || 1, 2),
+        dpr: getSafeDPR(1.25, 2),
         alpha: true,
+        antialias: !isMobileDevice,
       });
       rendererRef.current = renderer;
 
@@ -284,7 +293,7 @@ void main() {
         fadeDistance: { value: fadeDistance },
         saturation: { value: saturation },
         mousePos: { value: [0.5, 0.5] as [number, number] },
-        mouseInfluence: { value: mouseInfluence },
+        mouseInfluence: { value: isMobileDevice ? 0 : mouseInfluence },
         noiseAmount: { value: noiseAmount },
         distortion: { value: distortion },
       };
@@ -302,7 +311,7 @@ void main() {
       const updatePlacement = (): void => {
         if (!containerRef.current || !renderer) return;
 
-        renderer.dpr = Math.min(window.devicePixelRatio || 1, 2);
+        renderer.dpr = getSafeDPR(1.25, 2);
 
         const { clientWidth: wCSS, clientHeight: hCSS } = containerRef.current;
         renderer.setSize(wCSS, hCSS);
@@ -317,14 +326,14 @@ void main() {
         uniforms.rayDir.value = dir;
       };
 
-      const unsubscribe = subscribeAnimationFrame((_frameData, now) => {
+      const renderFrame = (now: number): void => {
         if (!rendererRef.current || !uniformsRef.current || !meshRef.current) {
           return;
         }
 
         uniforms.iTime.value = now * 0.001;
 
-        if (followMouse && mouseInfluence > 0.0) {
+        if (effectiveFollowMouse && mouseInfluence > 0.0) {
           const smoothing = 0.92;
           smoothMouseRef.current.x =
             smoothMouseRef.current.x * smoothing +
@@ -340,6 +349,16 @@ void main() {
         }
 
         renderer.render({ scene: mesh });
+      };
+      const mobileRenderFrame = createFPSLimiter(renderFrame, 30);
+
+      const unsubscribe = subscribeAnimationFrame((_frameData, now) => {
+        if (isMobileDevice) {
+          mobileRenderFrame(now);
+          return;
+        }
+
+        renderFrame(now);
       });
 
       const onMouseMove = (event: MouseEvent): void => {
@@ -350,7 +369,7 @@ void main() {
         mouseRef.current = { x, y };
       };
 
-      if (followMouse) {
+      if (effectiveFollowMouse) {
         window.addEventListener("mousemove", onMouseMove, { passive: true });
       }
 
@@ -361,7 +380,7 @@ void main() {
         unsubscribe();
 
         window.removeEventListener("resize", updatePlacement);
-        if (followMouse) {
+        if (effectiveFollowMouse) {
           window.removeEventListener("mousemove", onMouseMove);
         }
 
@@ -424,7 +443,7 @@ void main() {
     u.pulsating.value = pulsating ? 1.0 : 0.0;
     u.fadeDistance.value = fadeDistance;
     u.saturation.value = saturation;
-    u.mouseInfluence.value = mouseInfluence;
+    u.mouseInfluence.value = detectMobileDevice() ? 0 : mouseInfluence;
     u.noiseAmount.value = noiseAmount;
     u.distortion.value = distortion;
 
