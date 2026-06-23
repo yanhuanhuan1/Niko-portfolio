@@ -10,8 +10,8 @@ import { features } from "@/lib/config";
 import { detectMobileDevice } from "@/lib/mobileUtils";
 
 const LENIS_OPTIONS = {
-  duration: 0.3,
-  easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  duration: 0.42,
+  easing: (t: number) => t * t * (3 - 2 * t),
   orientation: "vertical" as const,
   gestureOrientation: "vertical" as const,
   smoothWheel: true,
