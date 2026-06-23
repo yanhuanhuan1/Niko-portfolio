@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { Mesh, Program, Renderer, Texture, Transform, Triangle } from "ogl";
 
+import { detectMobileDevice } from "@/lib/mobileUtils";
 import { subscribeAnimationFrame } from "@/lib/animation-clock";
 
 export type PortraitMorphProps = {
@@ -172,6 +173,12 @@ export function PortraitMorph({
   useEffect(() => {
     const container = containerRef.current;
     if (!container || !srcA || !srcB) return;
+
+    if (detectMobileDevice()) {
+      readyRef.current = false;
+      setReady(false);
+      return;
+    }
 
     const renderer = new Renderer({
       alpha: true,
