@@ -65,7 +65,7 @@ function PolaroidCard({
       initial={{ opacity: 0, y: -120, filter: "blur(18px)", rotate: photo.rotate }}
       animate={{ opacity: 1, y: 0, filter: "blur(0px)", rotate: photo.rotate }}
       transition={{
-        duration: 0.9,
+        duration: 0.3,
         delay: 0.05 + index * 0.08,
         ease: EASE,
       }}
