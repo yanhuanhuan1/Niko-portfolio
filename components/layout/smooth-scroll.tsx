@@ -7,9 +7,10 @@ import { time } from "motion-dom";
 
 import { subscribeAnimationFrame } from "@/lib/animation-clock";
 import { features } from "@/lib/config";
+import { detectMobileDevice } from "@/lib/mobileUtils";
 
 const LENIS_OPTIONS = {
-  duration: 1.6,
+  duration: 0.3,
   easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
   orientation: "vertical" as const,
   gestureOrientation: "vertical" as const,
@@ -33,6 +34,7 @@ export function SmoothScroll(): null {
     ).matches;
 
     if (prefersReducedMotion) return;
+    if (detectMobileDevice()) return;
 
     const lenis = new Lenis(LENIS_OPTIONS);
     lenisRef.current = lenis;
