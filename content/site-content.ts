@@ -364,30 +364,30 @@ export const siteContent = {
         en: "ABOUT",
       },
       description: {
-        zh: "持续成长，专注自我提升、职业发展与长期价值积累。",
-        en: "Keep growing, with a focus on self-improvement, career development, and long-term value accumulation.",
+        zh: "专注于自我提升、职业发展与长期价值积累。",
+        en: "Focused on self-improvement, career development, and long-term value accumulation.",
       },
       note: {
-        zh: "以下信息都可以直接在 site-content.ts 里继续编辑。",
-        en: "Everything below can be edited directly in site-content.ts.",
+        zh: "everything has its time.",
+        en: "Everything has its time.",
       },
       rows: [
         {
           label: { zh: "姓名", en: "Name" },
-          value: { zh: "Niko Zhou", en: "Niko Zhou" },
+          value: { zh: "周杨洋（Niko Zhou）", en: "Yangyang Zhou (Niko Zhou)" },
         },
         {
           label: { zh: "背景", en: "Background" },
           value: {
-            zh: "环境艺术设计 / 展览空间",
-            en: "Environmental art design / exhibition spaces",
+            zh: "室内设计 / 展览空间",
+            en: "Interior design / exhibition spaces",
           },
         },
         {
-          label: { zh: "现状", en: "Current status" },
+          label: { zh: "联系方式", en: "Contact" },
           value: {
-            zh: "作品集维护 / 项目整理 / 可编辑内容",
-            en: "Portfolio upkeep / project curation / editable content",
+            zh: "zyy331400@qq.com",
+            en: "zyy331400@qq.com",
           },
         },
       ],
@@ -396,26 +396,26 @@ export const siteContent = {
       experience: {
         title: { zh: "经历", en: "Experience" },
         note: {
-          zh: "以下经历可直接在 site-content.ts 中编辑。",
-          en: "These experience items can be edited directly in site-content.ts.",
+          zh: "从实习到正式工作的历程",
+          en: "From internship to full-time work.",
         },
         items: [
           {
             period: { zh: "2025 — 至今", en: "2025 — Present" },
-            title: { zh: "独立设计与作品集维护", en: "Independent design and portfolio upkeep" },
-            subtitle: { zh: "个人网站 / 视觉系统", en: "Personal website / visual system" },
+            title: { zh: "展厅/室内设计师", en: "Exhibition and interior designer" },
+            subtitle: { zh: "方案/产品/采购", en: "Concept / products / procurement" },
             description: {
-              zh: "负责网站内容整理、页面结构迭代与视觉节奏维护，让项目信息可以持续更新。",
-              en: "Responsible for content curation, page structure updates, and visual rhythm so project information can keep evolving.",
+              zh: "我从事展厅与室内设计，负责方案构思、产品配置与采购衔接，推动设计从视觉表达落地到实际执行。",
+              en: "I work in exhibition and interior design, responsible for concept development, product specification, and procurement coordination, helping designs move from visual expression to real-world delivery.",
             },
           },
           {
-            period: { zh: "2023 — 2025", en: "2023 — 2025" },
-            title: { zh: "展览与空间视觉支持", en: "Exhibition and spatial visual support" },
-            subtitle: { zh: "概念 / 平面 / 立面 / 效果", en: "Concept / plans / elevations / visuals" },
+            period: { zh: " — 2024", en: "— 2024" },
+            title: { zh: "建筑空间设计", en: "Architectural space design" },
+            subtitle: { zh: "概念 / 平面 / 立面 / 效果", en: "Concept / plans / elevations / renderings" },
             description: {
-              zh: "参与展览与空间项目的方案表达与视觉整理，推动图纸、效果图和现场沟通保持一致。",
-              en: "Supported proposal storytelling and visual organization for exhibition and spatial projects, keeping drawings, renders, and site communication aligned.",
+              zh: "参与产业园及公寓的大堂、室内方案、公共空间设计",
+              en: "Participated in lobby, interior scheme, and public space design for industrial parks and apartments.",
             },
           },
         ],
@@ -423,14 +423,14 @@ export const siteContent = {
       education: {
         title: { zh: "教育", en: "Education" },
         note: {
-          zh: "以下教育信息可直接在 site-content.ts 中编辑。",
-          en: "These education items can be edited directly in site-content.ts.",
+          zh: "设计教育背景",
+          en: "Design education background.",
         },
         items: [
           {
             period: { zh: "", en: "" },
             title: { zh: "本科 · 环境艺术设计", en: "Bachelor's degree · Environmental Art Design" },
-            subtitle: { zh: "建筑 / 展示 / 空间表达", en: "Architecture / display / spatial expression" },
+            subtitle: { zh: "江西理工大学", en: "Jiangxi University of Science and Technology" },
             description: {
               zh: "打下空间、展示与视觉表达的基础，并延伸到后续的项目叙事与数字化呈现。",
               en: "Built a foundation in spatial, exhibition, and visual expression, later extending into project storytelling and digital presentation.",
@@ -448,19 +448,19 @@ export const siteContent = {
       stack: {
         title: { zh: "技术栈", en: "Stack" },
         note: {
-          zh: "以下技术栈标签可直接在 site-content.ts 中编辑。",
-          en: "These stack tags can be edited directly in site-content.ts.",
+          zh: "点击以下技术栈标签可点击查看我的相关操作实例。",
+          en: "Click the tech-stack tags below to view related examples of my work.",
         },
         items: [
-          localize("Next.js", "Next.js"),
-          localize("React", "React"),
-          localize("TypeScript", "TypeScript"),
-          localize("Tailwind CSS", "Tailwind CSS"),
-          localize("Motion", "Motion"),
-          localize("Figma", "Figma"),
-          localize("AutoCAD", "AutoCAD"),
+          localize("Sketchup / D5", "SketchUp / D5"),
+          localize("CAD", "CAD"),
+          localize("ComfyUI", "ComfyUI"),
+          localize("3dsmax", "3ds Max"),
           localize("Rhino", "Rhino"),
           localize("Photoshop", "Photoshop"),
+          localize("Blender", "Blender"),
+          localize("Codex / claude", "Codex / Claude"),
+          localize("Indesign / ILLustrator", "InDesign / Illustrator"),
         ],
       },
     },
