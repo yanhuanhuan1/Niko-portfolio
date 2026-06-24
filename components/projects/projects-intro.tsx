@@ -36,6 +36,7 @@ export function ProjectsIntro(): ReactNode {
       <div className="mx-auto w-full max-w-275 px-6 py-28 sm:px-10 sm:py-32 lg:py-36">
         <FadeIn className="mx-auto flex max-w-4xl flex-col items-center text-center">
           <SplitText
+            key={`${language}-projects-kicker`}
             tag="p"
             text={t(copy.kicker, language)}
             className="text-sm font-medium uppercase tracking-[0.24em] text-foreground/45"
@@ -47,6 +48,7 @@ export function ProjectsIntro(): ReactNode {
           />
 
           <SplitText
+            key={`${language}-projects-title`}
             tag="h1"
             text={t(copy.title, language)}
             className="mt-5 font-serif text-[2.75rem] font-medium leading-[1.03] tracking-tight text-foreground md:text-[3.35rem] lg:text-[3.95rem]"
@@ -58,6 +60,7 @@ export function ProjectsIntro(): ReactNode {
           />
 
           <SplitText
+            key={`${language}-projects-description`}
             tag="p"
             text={t(copy.description, language)}
             className="mt-5 max-w-[34ch] text-[20px] leading-[1.42] tracking-tight text-foreground/65 sm:text-[22px]"
