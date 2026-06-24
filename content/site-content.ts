@@ -211,7 +211,7 @@ export const siteContent = {
           "https://www.processon.io/embed/6a39f9a3b19b00303db7f54f?lang=en-US",
         imageRatio: 1024 / 768,
         image: {
-          src: "/LX1.png",
+          src: "/LX2.png",
           alt: localize(
             "Rhythm 安静分析面板示意",
             "Shanghai Lu Xun Memorial Hall project image"
@@ -238,7 +238,7 @@ export const siteContent = {
           "https://www.processon.io/embed/6a39f9c251bbd3339a8c941d?lang=en-US",
         imageRatio: 1024 / 768,
         image: {
-          src: "/kbis photo.jpg",
+          src: "/KBIS1.jpg",
           alt: localize(
             "Groove 预约流程示意",
             "Orlando KBIS booth design project image"
@@ -262,7 +262,7 @@ export const siteContent = {
           "https://www.processon.io/embed/6a39f9f251bbd3339a8c943d?lang=en-US",
         imageRatio: 1024 / 768,
         image: {
-          src: "/KC1.png",
+          src: "/song.png",
           alt: localize(
             "Fieldnote 研究工具示意",
             "Exhibition hall in the Soong Ching Ling Former Residence garden project image"
@@ -485,8 +485,8 @@ export const siteContent = {
       en: "Recent realized projects",
     },
     description: {
-      zh: "点击任意项目，可在新标签页打开对应的 ProcessOn 画布链接。",
-      en: "Click any project to open the corresponding ProcessOn canvas link in a new tab.",
+      zh: "点击任意项目可打开对应的项目链接。",
+      en: "Click any project to open the corresponding project link.",
     },
   },
   systemCaseStudy: {
