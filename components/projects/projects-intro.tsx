@@ -51,8 +51,8 @@ export function ProjectsIntro(): ReactNode {
             key={`${language}-projects-title`}
             tag="h1"
             text={t(copy.title, language)}
-            className={`mt-4 whitespace-normal font-serif font-medium leading-[1.12] tracking-normal text-foreground sm:mt-5 sm:text-[2.75rem] md:text-[3.35rem] lg:text-[3.95rem] ${
-              language === "en" ? "text-[1.35rem]" : "text-[1.2rem]"
+            className={`mt-4 whitespace-normal font-serif font-medium leading-[1.06] tracking-normal text-foreground sm:mt-5 sm:text-[2.75rem] md:text-[3.35rem] lg:text-[3.95rem] ${
+              language === "en" ? "text-[1.1rem]" : "text-[1rem]"
             }`}
             delay={30}
             duration={0.72}
