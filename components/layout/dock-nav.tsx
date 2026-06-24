@@ -47,7 +47,7 @@ function DockNavEntry({
 }: {
   item: DockNavItem;
   activeHref: string;
-  onItemClick?: () => void;
+  onItemClick: (() => void) | undefined;
   mouseX: MotionValue<number>;
   setRef: (node: HTMLLIElement | null) => void;
   reducedMotion: boolean;
@@ -84,6 +84,7 @@ function DockNavEntry({
     stiffness: 260,
     damping: 24,
   });
+  const linkProps = onItemClick ? { onClick: onItemClick } : {};
 
   return (
     <motion.li
@@ -99,10 +100,10 @@ function DockNavEntry({
     >
       <Link
         href={item.href}
-        onClick={onItemClick}
         aria-current={isActive ? "page" : undefined}
         aria-label={item.ariaLabel ?? item.label}
         className="focus-ring relative inline-flex min-h-9 cursor-pointer items-center justify-center rounded-full px-4 py-2 text-sm font-medium transition-colors duration-300"
+        {...linkProps}
       >
         <span
           className={
