@@ -1,19 +1,19 @@
 "use client";
 
 import { Menu, Moon, Sun, X } from "lucide-react";
-import { motion } from "motion/react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   useEffect,
   useLayoutEffect,
-  useRef,
   useState,
   useSyncExternalStore,
+  type MouseEvent,
   type ReactNode,
 } from "react";
 
+import { DockNav } from "@/components/layout/dock-nav";
 import { siteContent, t } from "@/content/site-content";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { useLanguage } from "@/lib/language";
@@ -34,7 +34,7 @@ function NavThemeToggle(): ReactNode {
   const { setTheme, resolvedTheme } = useTheme();
   const isDark = mounted && resolvedTheme === "dark";
 
-  const toggleTheme = (event: React.MouseEvent<HTMLButtonElement>): void => {
+  const toggleTheme = (event: MouseEvent<HTMLButtonElement>): void => {
     const next = isDark ? "light" : "dark";
 
     const prefersReducedMotion =
@@ -117,14 +117,12 @@ export function Nav(): ReactNode {
   const pathname = usePathname();
   const { language } = useLanguage();
   const isMobile = useIsMobile(640);
-  const listRef = useRef<HTMLUListElement>(null);
-  const itemRefs = useRef<Array<HTMLLIElement | null>>([]);
-  const [pillRect, setPillRect] = useState<{
-    x: number;
-    width: number;
-  } | null>(null);
-  const [hasMeasured, setHasMeasured] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const dockItems = NAV_ITEMS.map((item) => ({
+    href: item.href,
+    label: t(item.label, language),
+  }));
 
   const scrollToTop = (): void => {
     window.scrollTo({ top: 0, left: 0 });
@@ -134,31 +132,6 @@ export function Nav(): ReactNode {
     setMenuOpen(false);
     scrollToTop();
   };
-
-  const activeIndex = NAV_ITEMS.findIndex((item) =>
-    item.href === "/"
-      ? pathname === "/"
-      : pathname === item.href || pathname.startsWith(`${item.href}/`)
-  );
-  const showPill = !isMobile && activeIndex >= 0 && pillRect !== null;
-
-  useLayoutEffect(() => {
-    if (isMobile) {
-      setPillRect(null);
-      return;
-    }
-
-    const list = listRef.current;
-    const activeEl =
-      activeIndex >= 0 ? itemRefs.current[activeIndex] : null;
-    if (!list || !activeEl) return;
-    const listRect = list.getBoundingClientRect();
-    const itemRect = activeEl.getBoundingClientRect();
-    setPillRect({
-      x: itemRect.left - listRect.left,
-      width: itemRect.width,
-    });
-  }, [activeIndex, isMobile, pathname]);
 
   useLayoutEffect(() => {
     scrollToTop();
@@ -185,20 +158,14 @@ export function Nav(): ReactNode {
     };
   }, [isMobile, menuOpen]);
 
-  useEffect(() => {
-    if (!pillRect) return;
-    const id = requestAnimationFrame(() => setHasMeasured(true));
-    return () => cancelAnimationFrame(id);
-  }, [pillRect]);
-
   return (
     <>
       <nav
         aria-label="Primary"
         className="fixed left-1/2 top-6 z-50 -translate-x-1/2"
       >
-        <div className="flex items-center gap-1 rounded-full border border-foreground/8 bg-background p-1.5 shadow-sm">
-          {isMobile ? (
+        {isMobile ? (
+          <div className="flex items-center gap-1 rounded-full border border-foreground/8 bg-background p-1.5 shadow-sm">
             <button
               type="button"
               onClick={() => setMenuOpen((value) => !value)}
@@ -221,58 +188,20 @@ export function Nav(): ReactNode {
                 <Menu className="h-4 w-4" aria-hidden="true" />
               )}
             </button>
-          ) : null}
 
-          <ul
-            ref={listRef}
-            className={isMobile ? "hidden" : "relative flex items-center gap-1"}
-          >
-          {showPill && (
-            <motion.span
-              aria-hidden="true"
-              initial={false}
-              animate={{ x: pillRect.x, width: pillRect.width }}
-              transition={
-                hasMeasured
-                  ? { type: "spring", stiffness: 380, damping: 32 }
-                  : { duration: 0 }
-              }
-              style={{ left: 0, top: 0, bottom: 0 }}
-              className="absolute rounded-full bg-foreground/5 ring-1 ring-foreground/8"
+            <NavThemeToggle />
+          </div>
+        ) : (
+          <div className="flex items-center gap-2">
+            {/* Legacy pill nav replaced by DockNav; routes and theme switching still behave the same. */}
+            <DockNav
+              items={dockItems}
+              activeHref={pathname}
+              onItemClick={scrollToTop}
             />
-          )}
-          {NAV_ITEMS.map((item, index) => {
-            const isActive = index === activeIndex;
-            return (
-              <li
-                key={item.href}
-                ref={(el) => {
-                  itemRefs.current[index] = el;
-                }}
-                className="relative"
-              >
-                <Link
-                  href={item.href}
-                  onClick={scrollToTop}
-                  aria-current={isActive ? "page" : undefined}
-                  className="focus-ring relative inline-flex cursor-pointer items-center justify-center rounded-full px-4 py-1.5 text-sm font-medium transition-colors duration-300"
-                >
-                  <span
-                    className={
-                      isActive
-                        ? "relative z-10 text-foreground"
-                        : "relative z-10 text-foreground/60 hover:text-foreground"
-                    }
-                  >
-                    {t(item.label, language)}
-                  </span>
-                </Link>
-              </li>
-            );
-          })}
-          </ul>
-          <NavThemeToggle />
-        </div>
+            <NavThemeToggle />
+          </div>
+        )}
       </nav>
 
       {isMobile && menuOpen ? (
@@ -293,6 +222,7 @@ export function Nav(): ReactNode {
           >
             <X className="h-5 w-5" aria-hidden="true" />
           </button>
+
           {NAV_ITEMS.map((item) => {
             const isActive =
               item.href === "/"
