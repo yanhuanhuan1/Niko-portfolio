@@ -259,7 +259,7 @@ export const siteContent = {
         ),
         meta: localize("方案设计, 2025", "Proposal design, 2025"),
         externalUrl:
-          "https://www.processon.io/embed/6a39f9dc51bbd3339a8c942e?lang=en-US",
+          "https://www.processon.io/embed/6a39f9f251bbd3339a8c943d?lang=en-US",
         imageRatio: 1024 / 768,
         image: {
           src: "/KC1.png",
@@ -283,7 +283,7 @@ export const siteContent = {
         ),
         meta: localize("展厅设计，2025", "Exhibition design, 2025"),
         externalUrl:
-          "https://www.processon.io/embed/6a39f9f251bbd3339a8c943d?lang=en-US",
+          "https://www.processon.io/embed/6a39f9dc51bbd3339a8c942e?lang=en-US",
         imageRatio: 1024 / 768,
         image: {
           src: "/song11.png",
