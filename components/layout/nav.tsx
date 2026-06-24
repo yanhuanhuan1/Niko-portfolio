@@ -117,7 +117,8 @@ export function Nav(): ReactNode {
   const pathname = usePathname();
   const { language } = useLanguage();
   const isMobile = useIsMobile(640);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuRoute, setMenuRoute] = useState<string | null>(null);
+  const menuOpen = isMobile && menuRoute === pathname;
 
   const dockItems = NAV_ITEMS.map((item) => ({
     href: item.href,
@@ -128,23 +129,17 @@ export function Nav(): ReactNode {
     window.scrollTo({ top: 0, left: 0 });
   };
 
+  const toggleMenu = (): void => {
+    setMenuRoute((current) => (current === pathname ? null : pathname));
+  };
+
   const handleNavClick = (): void => {
-    setMenuOpen(false);
+    setMenuRoute(null);
     scrollToTop();
   };
 
   useLayoutEffect(() => {
     scrollToTop();
-  }, [pathname]);
-
-  useEffect(() => {
-    if (!isMobile) {
-      setMenuOpen(false);
-    }
-  }, [isMobile]);
-
-  useEffect(() => {
-    setMenuOpen(false);
   }, [pathname]);
 
   useEffect(() => {
@@ -168,7 +163,7 @@ export function Nav(): ReactNode {
           <div className="flex items-center gap-1 rounded-full border border-foreground/8 bg-background p-1.5 shadow-sm">
             <button
               type="button"
-              onClick={() => setMenuOpen((value) => !value)}
+              onClick={toggleMenu}
               aria-expanded={menuOpen}
               aria-controls="mobile-primary-menu"
               aria-label={
@@ -210,13 +205,13 @@ export function Nav(): ReactNode {
           className="fixed inset-0 z-[60] flex flex-col items-center justify-center gap-3 bg-background/95 px-6 text-foreground backdrop-blur-xl"
           onClick={(event) => {
             if (event.target === event.currentTarget) {
-              setMenuOpen(false);
+              setMenuRoute(null);
             }
           }}
         >
           <button
             type="button"
-            onClick={() => setMenuOpen(false)}
+            onClick={() => setMenuRoute(null)}
             aria-label={language === "zh" ? "关闭菜单" : "Close menu"}
             className="focus-ring absolute left-1/2 top-6 inline-flex h-14 w-14 -translate-x-1/2 cursor-pointer items-center justify-center rounded-full bg-foreground text-background transition-transform active:scale-95"
           >

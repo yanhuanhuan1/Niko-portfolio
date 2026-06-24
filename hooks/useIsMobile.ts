@@ -19,15 +19,16 @@ export function useIsMobile(breakpoint = 768): boolean {
 }
 
 export function useIsTouchDevice(): boolean {
-  const [isTouch, setIsTouch] = useState(false);
+  const [isTouch] = useState<boolean>(() => {
+    if (typeof window === "undefined") {
+      return false;
+    }
 
-  useEffect(() => {
-    setIsTouch(
+    return (
       "ontouchstart" in window ||
-        navigator.maxTouchPoints > 0 ||
-        window.matchMedia("(hover: none)").matches
+      navigator.maxTouchPoints > 0 ||
+      window.matchMedia("(hover: none)").matches
     );
-  }, []);
-
+  });
   return isTouch;
 }
