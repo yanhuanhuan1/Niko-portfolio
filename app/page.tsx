@@ -11,9 +11,9 @@ const homeProjectItems = orderProjects([
   "groove",
   "atlas",
   "rhythm",
-  "loom",
-  "fieldnote",
   "talkback",
+  "fieldnote",
+  "loom",
 ]);
 
 export const metadata: Metadata = createMetadata({
