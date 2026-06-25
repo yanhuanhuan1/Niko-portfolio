@@ -16,6 +16,7 @@ import { useEffect, type ComponentType, type ReactNode } from "react";
 
 import { FadeIn } from "@/components/ui/motion-primitives";
 import { siteContent, t, type IconKey } from "@/content/site-content";
+import { useIsMobile } from "@/hooks/useIsMobile";
 import { useLanguage } from "@/lib/language";
 import type { ProjectItem } from "./project-order";
 
@@ -50,6 +51,7 @@ export function Projects({
   items = PROJECTS,
 }: ProjectsProps): ReactNode {
   const { language } = useLanguage();
+  const isMobile = useIsMobile(768);
   const visibleItems = viewMoreVisible ? items.slice(0, 4) : items;
   const copy = siteContent.homeProjects;
 
@@ -67,11 +69,37 @@ export function Projects({
           </FadeIn>
         ) : null}
 
-        <div className="columns-1 gap-6 md:columns-2 md:gap-7">
-          {visibleItems.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
-          ))}
-        </div>
+        {isMobile ? (
+          <div className="relative mt-2">
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-background via-background/85 to-transparent"
+            />
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-background via-background/85 to-transparent"
+            />
+
+            <div className="project-gallery__scroller relative overflow-x-auto overflow-y-hidden py-4">
+              <div className="flex min-w-max gap-5">
+                {visibleItems.map((project, index) => (
+                  <ProjectCard
+                    key={project.id}
+                    project={project}
+                    index={index}
+                    mobileRail
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="columns-1 gap-6 md:columns-2 md:gap-7">
+            {visibleItems.map((project, index) => (
+              <ProjectCard key={project.id} project={project} index={index} />
+            ))}
+          </div>
+        )}
 
         {viewMoreVisible ? (
           <div className="mt-12 flex justify-center sm:mt-16">
@@ -95,9 +123,11 @@ export function Projects({
 function ProjectCard({
   project,
   index,
+  mobileRail = false,
 }: {
   project: ProjectItem;
   index: number;
+  mobileRail?: boolean;
 }): ReactNode {
   const { language } = useLanguage();
   const copy = siteContent.homeProjects;
@@ -117,7 +147,11 @@ function ProjectCard({
   }, [hasExternalUrl, project.id, project.title]);
 
   const content = (
-    <article className="project-card flex flex-col gap-4 rounded-3xl border border-foreground/8 bg-background p-3 sm:p-3.5">
+    <article
+      className={`project-card flex flex-col gap-4 rounded-3xl border border-foreground/8 bg-background p-3 sm:p-3.5 ${
+        mobileRail ? "w-[min(27rem,82vw)] shrink-0" : ""
+      }`}
+    >
       <header className="flex items-center gap-2.5 px-1 pt-2">
         <span className="border-foreground/10 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border bg-background">
           <Icon className="h-3.5 w-3.5 text-foreground" aria-hidden="true" />
@@ -136,7 +170,11 @@ function ProjectCard({
             src={project.image.src}
             alt={t(project.image.alt, language)}
             fill
-            sizes="(min-width: 1024px) 540px, (min-width: 768px) 45vw, 100vw"
+            sizes={
+              mobileRail
+                ? "(max-width: 767px) 82vw, 100vw"
+                : "(min-width: 1024px) 540px, (min-width: 768px) 45vw, 100vw"
+            }
             className="object-cover"
             priority={index < 2}
           />
@@ -168,7 +206,9 @@ function ProjectCard({
   return (
     <FadeIn
       delay={Math.min(index * 0.06, 0.3)}
-      className="mb-6 break-inside-avoid md:mb-7"
+      className={
+        mobileRail ? "shrink-0" : "mb-6 break-inside-avoid md:mb-7"
+      }
     >
       {hasExternalUrl ? (
         <a

@@ -146,7 +146,7 @@ export function ProjectGalleryExperience({
   function consumeWheelAsHorizontal(
     event: Pick<WheelEvent, "deltaX" | "deltaY">
   ): boolean {
-    if (!enableDesktopGallery || reducedMotion || activeProject) {
+    if (reducedMotion || activeProject) {
       return false;
     }
 
@@ -516,7 +516,7 @@ export function ProjectGalleryExperience({
   function handleScrollerKeyDown(
     event: React.KeyboardEvent<HTMLDivElement>
   ): void {
-    if (!enableDesktopGallery || !scrollerRef.current) {
+    if (!scrollerRef.current) {
       return;
     }
 
@@ -579,53 +579,31 @@ export function ProjectGalleryExperience({
         ) : null}
       </div>
 
-      {enableDesktopGallery ? (
-        <div className="relative mt-8">
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-background via-background/85 to-transparent sm:w-24"
-          />
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-background via-background/85 to-transparent sm:w-24"
-          />
+      <div className="relative mt-8">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-background via-background/85 to-transparent sm:w-24"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-background via-background/85 to-transparent sm:w-24"
+        />
 
-          <div
-            ref={scrollerRef}
-            tabIndex={0}
-            data-active={activeProject ? "true" : "false"}
-            data-lenis-prevent-wheel
-            data-lenis-prevent-touch
-            onKeyDown={handleScrollerKeyDown}
-            onPointerDown={handlePointerDown}
-            onPointerMove={handlePointerMove}
-            onPointerUp={endPointerDrag}
-            onPointerCancel={endPointerDrag}
-            onLostPointerCapture={endPointerDrag}
-            className="project-gallery__scroller focus-ring relative overflow-x-auto overflow-y-hidden px-6 py-4 outline-none sm:px-10 lg:px-12"
-          >
-            <div ref={railRef} className="flex min-w-max gap-6 lg:gap-8">
-              {items.map((project, index) => (
-                <ProjectGalleryCard
-                  key={project.id}
-                  project={project}
-                  index={index}
-                  language={language}
-                  onOpen={openProject}
-                  setRef={setCardRef}
-                  isDimmed={
-                    activeProject !== null && activeProject.id !== project.id
-                  }
-                  isHidden={activeProject?.id === project.id}
-                  dialogId={dialogId}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div className="mx-auto mt-6 w-full px-6 sm:mt-8 sm:px-10">
-          <div className="grid gap-5">
+        <div
+          ref={scrollerRef}
+          tabIndex={0}
+          data-active={activeProject ? "true" : "false"}
+          data-lenis-prevent-wheel
+          data-lenis-prevent-touch
+          onKeyDown={handleScrollerKeyDown}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={endPointerDrag}
+          onPointerCancel={endPointerDrag}
+          onLostPointerCapture={endPointerDrag}
+          className="project-gallery__scroller focus-ring relative overflow-x-auto overflow-y-hidden px-6 py-4 outline-none sm:px-10 lg:px-12"
+        >
+          <div ref={railRef} className="flex min-w-max gap-5 sm:gap-6 lg:gap-8">
             {items.map((project, index) => (
               <ProjectGalleryCard
                 key={project.id}
@@ -634,15 +612,15 @@ export function ProjectGalleryExperience({
                 language={language}
                 onOpen={openProject}
                 setRef={setCardRef}
-                isDimmed={false}
-                isHidden={false}
+                isDimmed={activeProject !== null && activeProject.id !== project.id}
+                isHidden={activeProject?.id === project.id}
                 dialogId={dialogId}
-                mobile
+                mobile={isMobile}
               />
             ))}
           </div>
         </div>
-      )}
+      </div>
 
       {typeof document !== "undefined" && activeProject
         ? createPortal(
@@ -700,7 +678,7 @@ function ProjectGalleryCard({
       aria-controls={dialogId}
       className={`project-card focus-ring group relative overflow-hidden rounded-[1.6rem] border border-foreground/8 bg-background text-left transition-all duration-500 ${
         mobile
-          ? "w-full p-3 sm:p-4"
+          ? "w-[min(27rem,84vw)] shrink-0 p-3 sm:w-[min(30rem,72vw)] sm:p-4"
           : "w-[min(34rem,86vw)] shrink-0 p-4 sm:w-[min(38rem,78vw)] lg:w-[34rem] xl:w-[36rem]"
       } ${
         isHidden
@@ -744,7 +722,7 @@ function ProjectGalleryCard({
             fill
             sizes={
               mobile
-                ? "100vw"
+                ? "(max-width: 767px) 84vw, 72vw"
                 : "(min-width: 1280px) 420px, (min-width: 1024px) 32vw, 76vw"
             }
             className="pointer-events-none select-none object-cover"
