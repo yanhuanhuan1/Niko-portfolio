@@ -1,5 +1,6 @@
 "use client";
 
+import { ArrowDown } from "lucide-react";
 import type { ReactNode } from "react";
 
 import { FadeIn } from "@/components/ui/motion-primitives";
@@ -11,6 +12,10 @@ export function ProjectsIntro(): ReactNode {
   const { language } = useLanguage();
   const copy = siteContent.projectsIntro;
   const splitType = language === "en" ? "words" : "chars";
+  const introDescription =
+    language === "zh"
+      ? "点击项目跳转到详细页查看"
+      : "Click a project to jump to its detail page. Desktop opens an overlay, while mobile keeps a lighter inline reveal.";
 
   /*
   Legacy layout:
@@ -51,11 +56,10 @@ export function ProjectsIntro(): ReactNode {
             key={`${language}-projects-title`}
             tag="h1"
             text={t(copy.title, language)}
-            className={`mt-4 whitespace-normal font-serif font-medium leading-[1.06] tracking-normal text-foreground sm:mt-5 sm:text-[2.75rem] md:text-[3.35rem] lg:text-[3.95rem] ${
-              language === "en"
+            className={`mt-4 whitespace-normal font-serif font-medium leading-[1.06] tracking-normal text-foreground sm:mt-5 sm:text-[2.75rem] md:text-[3.35rem] lg:text-[3.95rem] ${language === "en"
                 ? "text-[1.1rem]"
                 : "text-[1rem] max-w-[5.5em] [&>span]:!whitespace-normal sm:max-w-none sm:[&>span]:!whitespace-nowrap"
-            }`}
+              }`}
             delay={30}
             duration={0.72}
             splitType={splitType}
@@ -66,7 +70,7 @@ export function ProjectsIntro(): ReactNode {
           <SplitText
             key={`${language}-projects-description`}
             tag="p"
-            text={t(copy.description, language)}
+            text={introDescription}
             className="mt-4 max-w-[26ch] text-[16px] leading-[1.45] tracking-normal text-foreground/65 sm:mt-5 sm:max-w-[34ch] sm:text-[22px]"
             delay={24}
             duration={0.68}
@@ -74,6 +78,16 @@ export function ProjectsIntro(): ReactNode {
             from={{ opacity: 0, y: 14 }}
             to={{ opacity: 1, y: 0 }}
           />
+
+          <a
+            href="#projects-gallery"
+            aria-label={
+              language === "zh" ? "跳转到项目详情列表" : "Jump to project gallery"
+            }
+            className="focus-ring mt-10 inline-flex h-14 w-14 items-center justify-center rounded-full border border-foreground/10 bg-background/80 text-foreground/70 transition-all duration-300 hover:translate-y-1 hover:text-foreground"
+          >
+            <ArrowDown className="h-5 w-5" aria-hidden="true" />
+          </a>
         </FadeIn>
       </div>
     </section>

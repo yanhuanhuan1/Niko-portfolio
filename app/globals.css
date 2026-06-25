@@ -273,3 +273,30 @@ html[data-theme-anim="1"]::view-transition-new(root) {
 .project-card:hover .project-card__image-inner {
   transform: scale(1.06);
 }
+
+.project-gallery__scroller {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  cursor: grab;
+  overscroll-behavior-x: contain;
+  overscroll-behavior-y: contain;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.project-gallery__scroller::-webkit-scrollbar {
+  display: none;
+}
+
+.project-gallery__scroller:active {
+  cursor: grabbing;
+}
+
+.project-gallery__floating-clone {
+  border-radius: 1.6rem;
+  border: 1px solid color-mix(in srgb, var(--foreground) 10%, transparent);
+  background: var(--background);
+  box-shadow:
+    0 30px 90px -45px rgb(0 0 0 / 0.55),
+    0 10px 25px -20px rgb(0 0 0 / 0.35);
+}

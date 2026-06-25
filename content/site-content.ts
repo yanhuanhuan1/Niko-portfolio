@@ -272,24 +272,24 @@ export const siteContent = {
       {
         id: "talkback",
         icon: "bot",
-        iconLabel: localize("展厅设计", "Exhibition Design"),
+        iconLabel: localize("商业设计", "Commercial Design"),
         title: localize(
-          "上海宋陵 · 宋庆龄与国际传播 特展",
-          "Shanghai Songling · Special Exhibition on Soong Ching Ling and International Communication"
+          "上海文学记忆馆 · 文创商店",
+          "Shanghai Literature Memory Hall · Cultural and Creative Shop"
         ),
         description: localize(
-          "在《中国之声 世界之光—宋庆龄与国际传播》特展中，与部门协作共同完成整个特展的方案与效果设计。",
-          "For the special exhibition 'The Voice of China, the Light of the World - Soong Ching Ling and International Communication', collaborated with the department to complete the overall proposal and visual design."
+          "独立完成上海文学记忆馆 · 文创商店空间设计，以“苦作舟”与“穿越时空门”为核心概念，打造具有文学叙事感的文创零售空间。",
+          "Independently completed the spatial design for the Shanghai Literature Memory Hall cultural and creative shop, using \"Boating Through Hard Work\" and \"A Portal Through Time\" as the core concepts to create a literary retail atmosphere."
         ),
-        meta: localize("展厅设计，2025", "Exhibition design, 2025"),
+        meta: localize("商业设计，2025", "Commercial design, 2025"),
         externalUrl:
           "https://www.processon.io/embed/6a39f9dc51bbd3339a8c942e?lang=en-US",
         imageRatio: 1024 / 768,
         image: {
-          src: "/song11.png",
+          src: "/wenchuang.png",
           alt: localize(
             "Talkback 对话界面示意",
-            "Soong Ching Ling and International Communication special exhibition project image"
+            "Shanghai Literature Memory Hall cultural and creative shop project image"
           ),
         },
       },
@@ -481,12 +481,30 @@ export const siteContent = {
       en: "Project overview / Project index",
     },
     title: {
-      zh: "实际落地的最新项目",
-      en: "Recent realized projects",
+      zh: "最新落地项目",
+      en: "Latest delivered projects",
     },
     description: {
       zh: "点击任意项目可打开对应的项目链接。",
       en: "Click any project to open the corresponding project link.",
+    },
+  },
+  projectsGallery: {
+    openDetail: {
+      zh: "打开项目详情",
+      en: "Open project details",
+    },
+    close: {
+      zh: "关闭",
+      en: "Close",
+    },
+    viewFullProject: {
+      zh: "查看完整项目",
+      en: "View full project",
+    },
+    dragHint: {
+      zh: "拖动或横向滚动浏览",
+      en: "Drag or scroll horizontally",
     },
   },
   systemCaseStudy: {
