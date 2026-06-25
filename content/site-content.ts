@@ -485,8 +485,8 @@ export const siteContent = {
       en: "Latest delivered projects",
     },
     description: {
-      zh: "点击项目即可进入详情页，桌面端先打开站内详情层，手机端则保持轻量展开。",
-      en: "Click a project to enter its detail view. Desktop opens an in-site overlay first, while mobile keeps a lighter inline reveal.",
+      zh: "点击项目即可进入详情页",
+      en: "Click a project to enter its detail view.",
     },
     jumpToGallery: {
       zh: "跳转到项目画廊",
