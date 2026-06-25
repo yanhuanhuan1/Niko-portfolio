@@ -485,8 +485,12 @@ export const siteContent = {
       en: "Latest delivered projects",
     },
     description: {
-      zh: "点击任意项目可打开对应的项目链接。",
-      en: "Click any project to open the corresponding project link.",
+      zh: "点击项目即可进入详情页，桌面端先打开站内详情层，手机端则保持轻量展开。",
+      en: "Click a project to enter its detail view. Desktop opens an in-site overlay first, while mobile keeps a lighter inline reveal.",
+    },
+    jumpToGallery: {
+      zh: "跳转到项目画廊",
+      en: "Jump to project gallery",
     },
   },
   projectsGallery: {
