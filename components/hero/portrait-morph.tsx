@@ -176,7 +176,6 @@ export function PortraitMorph({
 
     if (detectMobileDevice()) {
       readyRef.current = false;
-      setReady(false);
       return;
     }
 
